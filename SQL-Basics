@@ -1,0 +1,109 @@
+https://www.oicbasics.com/2020/01/download-oracle-database-11g-xe-express.html
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Jun 7 07:27:14 2024
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn
+Enter user-name: dinesh
+Enter password:
+SQL>
+
+SQL> connect
+Enter user-name: dinesh
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+Warning: You are no longer connected to ORACLE.
+
+CREATE:
+
+create table <table-name> (col1 datatype ,col2 datatype....);
+
+int -> number
+string -> varchar2
+
+
+SQL> create table emp_details(empId number(4),empName varchar2(10),salary number(10,2),mobile number(10));
+
+SQL> desc emp_details;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPID                                              NUMBER(4)
+ EMPNAME                                            VARCHAR2(10)
+ SALARY                                             NUMBER(10,2)
+ MOBILE                                             NUMBER(10)
+
+SQL>
+
+INSERT:
+--------
+INSERT into <table_name> values(val1,val2....);
+
+SQL> insert into emp_details values(1,'raj',10000.0,12346);
+
+1 row created.
+
+SQL>
+
+SQL> desc emp_details;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPID                                              NUMBER(4)
+ EMPNAME                                            VARCHAR2(10)
+ SALARY                                             NUMBER(10,2)
+ MOBILE                                             NUMBER(10)
+
+SQL> select * from emp_details;
+
+     EMPID EMPNAME        SALARY     MOBILE
+---------- ---------- ---------- ----------
+         1 raj             10000      12346
+         2 ravi            10000      12346
+         3 ramesh          10000      12346
+
+SQL>
+
+UPDATE TABLE table_name set col=val;
+
+
+UPDATE TABLE table_name set col=val where condition;
+
+SQL> update emp_details set mobile=12347 where empid=3;
+
+1 row updated.
+
+SQL> select * from emp_details;
+
+     EMPID EMPNAME        SALARY     MOBILE
+---------- ---------- ---------- ----------
+         1 raj             10000      12346
+         2 ravi            10000      12346
+         3 ramesh          10000      12347
+
+SQL>
+
+
+SQL> select * from emp_details;
+
+     EMPID EMPNAME        SALARY     MOBILE
+---------- ---------- ---------- ----------
+         1 raj             10000      12346
+         2 ravi            10000      12346
+         3 ramesh          10000      12347
+
+SQL> delete from emp_details where EMPID=3;
+
+1 row deleted.
+
+SQL> select * from emp_details;
+
+     EMPID EMPNAME        SALARY     MOBILE
+---------- ---------- ---------- ----------
+         1 raj             10000      12346
+         2 ravi            10000      12346
+
+SQL>commit ;
+
+
+
