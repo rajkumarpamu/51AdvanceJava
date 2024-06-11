@@ -1,0 +1,263 @@
+Statement	createStatement()
+Creates a Statement object for sending SQL statements to the database.
+
+The object used for executing a static SQL statement and returning the results it produces.
+
+boolean	execute(String sql)
+Executes the given SQL statement, which may return multiple results.
+
+package com.demo.dao;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Driver;
+import java.sql.Connection;
+
+public class JDBCExample {
+	
+	public static void main(String[] args) {
+		
+		
+		Driver driver = new oracle.jdbc.OracleDriver();
+		try {
+			DriverManager.registerDriver(driver);
+			System.out.println("Driver is registered");
+			String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+			Connection con =DriverManager.getConnection(url, "dinesh", "welcome");
+			System.out.println("connection is established");
+			Statement createStatement = con.createStatement();
+			System.out.println("statement object is created");
+			String sql= "create table empdetails_java(empid number(4),empname varchar2(20))";
+			createStatement.execute(sql);
+			con.close();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+}
+
+
+package com.demo.dao;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Driver;
+import java.sql.Connection;
+
+public class JDBCExample {
+
+	public static void main(String[] args) throws ClassNotFoundException {
+
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+			System.out.println("Driver is registered");
+			String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+			Connection con = DriverManager.getConnection(url, "dinesh", "welcome");
+			System.out.println("connection is established");
+			Statement createStatement = con.createStatement();
+			System.out.println("statement object is created");
+			String sql = "INSERT INTO empdetails_java values(1,'Raj')";
+			createStatement.execute(sql);
+			con.close();
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+}
+
+
+package com.demo.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCConnection {
+	
+	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("oracle.jdbc.OracleDriver");
+		System.out.println("Driver is registered");
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		Connection con = DriverManager.getConnection(url, "dinesh", "welcome");
+		System.out.println("connection is established");
+		return con;
+	}
+
+}
+
+
+package com.demo.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCExample {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+		Connection con=null;
+		Statement  createStatement = null;
+		try {
+			con = JDBCConnection.getConnection();
+			createStatement = con.createStatement();
+			System.out.println("statement object is created");
+			String sql = " empdetails_java set empname='raj kumar' where empid=1";
+			createStatement.execute(sql);
+			con.close();
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			createStatement.close();
+			con.close();
+			System.out.println(con.isClosed());
+		}
+
+	}
+
+
+
+}
+
+
+
+insert into empdetails_java values("+emp.getEmpid()+","+emp.getEmpName()+")";
+
+package com.demo.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.demo.dto.Employee;
+
+public class JDBCExample {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+		Connection con=null;
+		Statement  createStatement = null;
+		try {
+			con = JDBCConnection.getConnection();
+			createStatement = con.createStatement();
+			System.out.println("statement object is created");
+			Employee emp = new Employee();
+			emp.setEmpid(1);
+			emp.setEmpName("Ravi");
+			String sql = "insert into empdetails_java values("+emp.getEmpid()+","+"'"+emp.getEmpName()+"'"+")";
+			createStatement.execute(sql);
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			createStatement.close();
+			con.close();
+		}
+
+	}
+
+
+
+}
+
+
+package com.demo.dto;
+
+public class Employee {
+
+	Integer empid;
+	String empName;
+
+	public Integer getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(Integer empid) {
+		this.empid = empid;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+}
+
+
+package com.demo.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCConnection {
+	
+	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("oracle.jdbc.OracleDriver");
+		System.out.println("Driver is registered");
+		String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+		Connection con = DriverManager.getConnection(url, "dinesh", "welcome");
+		System.out.println("connection is established");
+		return con;
+	}
+
+}
+
+
+package com.demo.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.demo.dto.Employee;
+
+public class JDBCExample {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Employee emp = new Employee();
+		emp.setEmpid(1);
+		emp.setEmpName("Rahul");
+		insertEmployee(emp);
+
+	}
+
+	private static void insertEmployee(Employee emp) throws ClassNotFoundException, SQLException {
+		Connection con=null;
+		Statement  createStatement = null;
+		try {
+			con = JDBCConnection.getConnection();
+			createStatement = con.createStatement();
+			System.out.println("statement object is created");
+			String sql = "insert into empdetails_java values("+emp.getEmpid()+","+"'"+emp.getEmpName()+"'"+")";
+			createStatement.execute(sql);
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			createStatement.close();
+			con.close();
+		}
+	}
+
+
+
+
+}
